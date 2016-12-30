@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content%}
+<h1>{{ title }}</h1>
+<table class="table">
+  <tr>
+    <th class="col-md-2">day</th>
+    <th class="col-md-2">average speed</th>
+    <td class="col-md-8"></td>
+  </tr>
+  {% for day in days %}
+  <tr>
+    <td class="col-md-2"><a href="{{ day.day }}.htm">{{ day.day }}</a></td>
+    <td class="col-md-2">{{ day.speed | round(1) }}</td>
+    <td class="col-md-8"></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

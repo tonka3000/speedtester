@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+    var data = {
+      labels: [
+        {% for item in ts %}
+          "{{ item }}",
+        {% endfor %}
+      ],
+      datasets: [
+        {
+          label: "Internetspeed Mbit/s",
+          data: [
+          {% for item in speeds %}
+            {{ item }},
+          {% endfor %}
+          ]
+        }
+      ]
+    }
+    </script>
+{% endblock %}
+{% block content %}
+    <h1>{{ title }}</h1>
+    <div width="100%" height="100">
+    <canvas id="myChart" width="300" height="100%"></canvas>
+    </div>
+    <script>
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var options = {
+      scales: {
+        yAxes: [{
+            display: true,
+            ticks: {
+                beginAtZero: true   // minimum value will be 0.
+            }
+        }]
+    }
+    };
+    var lineChart = new Chart(ctx,{
+      type:'line',
+      data:data,
+      options:options
+    });
+    </script>
+{% endblock %}
