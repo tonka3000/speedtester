@@ -14,11 +14,16 @@ def getDownloadSpeed():
     '''
     with open(tmp, "w") as f:
         subprocess.call([speedtestcli_bin], stdout=f)
+
+    download_speed = "0 MBit/s"
+    upload_speed = "0 MBit/s"
     with open(tmp, "r") as f:
         downloadtext = "Download:"
+        uploadtext = "Upload:"
         for line in f:
             l = line.strip()
             if l.startswith(downloadtext):
-                speedtext = l[len(downloadtext):].strip()
-                return speedtext
-    return "0 MBit/s"
+                download_speed = l[len(downloadtext):].strip()
+            elif l.startswith(uploadtext):
+                upload_speed = l[len(uploadtext):].strip()
+    return download_speed, upload_speed

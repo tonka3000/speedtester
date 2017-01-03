@@ -20,13 +20,14 @@ if __name__ == "__main__":
     ts = now.strftime("%Y-%m-%d_%H-%M-%S")
 
     ts = str(now)
-    speed = getDownloadSpeed()
+    download_speed, upload_speed = getDownloadSpeed()
     end = datetime.now()
     duration = end - now
-    print("speed: " + str(speed))
+    print("download speed: " + str(download_speed))
+    print("upload speed: " + str(upload_speed))
 
     with open(logfile, "a") as f:
-        f.write(speed + "\t" + ts + "\t" + str(duration) + "\n")
+        f.write(download_speed + ":" + upload_speed + "\t" + ts + "\t" + str(duration) + "\n")
 
     print("convert log to html")
     convertToHtml()

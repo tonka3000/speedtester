@@ -16,30 +16,35 @@ def convertToHtml():
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    speeds, ts = analyse.readdata()
+    speeds, upload_speeds, ts = analyse.readdata()
     speed_len = len(speeds)
 
     day_data = {}
     for i in range(speed_len):
         speed = speeds[i]
+        upload_speed = upload_speeds[i]
         t = ts[i]
         day_string = datetime.strftime(t, "%Y-%m-%d")
         if day_string not in day_data.keys():
             day_data[day_string] = {}
             day_data[day_string]["speeds"] = []
             day_data[day_string]["ts"] = []
+            day_data[day_string]["upload_speeds"] = []
 
         day_data[day_string]["speeds"].append(speed)
         day_data[day_string]["ts"].append(datetime.strftime(t, "%Y-%m-%d %H:%M:%S"))
+        day_data[day_string]["upload_speeds"].append(upload_speed)
 
     days = []
     for day_string in sorted(day_data.keys()):
         day = day_data[day_string]
         speeds = day["speeds"]
+        upload_speeds = day["upload_speeds"]
 
         templateVars = {
             "ts" : day["ts"],
-            "speeds" : speeds,
+            "download_speeds" : speeds,
+            "upload_speeds" : upload_speeds,
             "title" : day_string
         }
 
@@ -48,7 +53,8 @@ def convertToHtml():
 
         days.append({
             "day" : day_string,
-            "speed" : sum(speeds) / len(speeds)
+            "download_speed" : sum(speeds) / len(speeds),
+            "upload_speed" : sum(upload_speeds) / len(upload_speeds)
         })
 
     with open(os.path.join(output_directory, "index.htm"), 'w') as f:

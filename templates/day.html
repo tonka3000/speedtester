@@ -9,9 +9,19 @@
       ],
       datasets: [
         {
-          label: "Internetspeed Mbit/s",
+          label: "Downloadspeed Mbit/s",
+          backgroundColor: "rgba(141,218,202,0.4)",
           data: [
-          {% for item in speeds %}
+          {% for item in download_speeds %}
+            {{ item }},
+          {% endfor %}
+          ]
+        },
+        {
+          label: "Uploadspeed Mbit/s",
+          backgroundColor: "rgba(119,165,174,0.4)",
+          data: [
+          {% for item in upload_speeds %}
             {{ item }},
           {% endfor %}
           ]
