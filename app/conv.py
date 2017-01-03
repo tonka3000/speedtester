@@ -1,8 +1,8 @@
 import os
 from app import analyse
 from app.template import render_template
+from app.configuration import getConfigValue
 from datetime import datetime
-import config
 
 # pylint: disable=C0103
 
@@ -12,7 +12,7 @@ def convertToHtml():
     '''
     convert the log.txt file to html files
     '''
-    output_directory = os.path.abspath(config.html_directory)
+    output_directory = os.path.abspath(getConfigValue("html_directory", "./html"))
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
@@ -60,5 +60,5 @@ def convertToHtml():
     with open(os.path.join(output_directory, "index.htm"), 'w') as f:
         f.write(render_template("index.html", variables={
             "days" : reversed(days),
-            "title" : config.title
+            "title" : getConfigValue("title", "speedtest")
             }))

@@ -1,10 +1,10 @@
 import os, sys
 from datetime import date,datetime
-import config
+from app.configuration import getConfigValue
 
 # pylint: disable=C0103
 
-infile = os.path.join(config.data_directory, "log.txt")
+infile = os.path.join(getConfigValue("data_directory", "./data"), "log.txt")
 
 def readdata():
     '''

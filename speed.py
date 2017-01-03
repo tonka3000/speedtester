@@ -2,8 +2,8 @@
 import os, argparse
 from app.speed import getDownloadSpeed
 from app.conv import convertToHtml
+from app.configuration import getConfigValue
 from datetime import datetime
-import config
 
 # pylint: disable=C0103
 
@@ -15,11 +15,12 @@ if __name__ == "__main__":
     parser.add_argument('--no-html', help='skip the html generation', action='store_true')
     args = parser.parse_args()
 
-    data_directory = os.path.abspath(config.data_directory)
+    data_directory = os.path.abspath(getConfigValue("data_directory"))
     if not os.path.exists(data_directory):
         os.makedirs(data_directory)
 
     if not args.no_speedtest:
+        print("measure speed")
         logfile = os.path.join(data_directory, "log.txt")
 
         now = datetime.now()

@@ -1,12 +1,12 @@
 import os, sys, subprocess
-import config
+from app.configuration import getConfigValue
 
 # pylint: disable=C0103
 
 __dir = os.path.dirname(os.path.abspath(__file__))
 
 speedtestcli_bin = 'speedtest-cli'
-tmp = os.path.join(config.data_directory, "tmp.txt")
+tmp = os.path.join(getConfigValue("data_directory", "./data"), "tmp.txt")
 
 def getDownloadSpeed():
     '''
