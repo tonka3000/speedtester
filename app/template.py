@@ -9,7 +9,7 @@ def render_template(template, variables={}):
     render the given template
     '''
     templateLoader = jinja2.FileSystemLoader(searchpath=os.path.join(__dir, "../templates"))
-    templateEnv = jinja2.Environment(loader=templateLoader)
+    templateEnv = jinja2.Environment(loader=templateLoader, undefined=jinja2.StrictUndefined)
 
     TEMPLATE_FILE = "./" + template
     template = templateEnv.get_template(TEMPLATE_FILE)
