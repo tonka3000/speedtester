@@ -59,6 +59,7 @@ def convertToHtml():
 
     with open(os.path.join(output_directory, "index.htm"), 'w') as f:
         f.write(render_template("index.html", variables={
-            "days" : reversed(days),
+            "days" : days,
+            "days_rev" : list(reversed(days)),
             "title" : getConfigValue("title", "speedtest")
             }))

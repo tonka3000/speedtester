@@ -1,6 +1,55 @@
 {% extends "base.html" %}
-{% block content%}
+{% block head %}
+<script type="text/javascript">
+var data = {
+  labels: [
+    {% for day in days %}
+      "{{ day.day }}",
+    {% endfor %}
+  ],
+  datasets: [
+    {
+      label: "Downloadspeed Mbit/s",
+      backgroundColor: "rgba(141,218,202,0.4)",
+      data: [
+      {% for day in days %}
+        {{ day.download_speed }},
+      {% endfor %}
+      ]
+    },
+    {
+      label: "Uploadspeed Mbit/s",
+      backgroundColor: "rgba(119,165,174,0.4)",
+      data: [
+      {% for day in days %}
+        {{ day.upload_speed }},
+      {% endfor %}
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+{% block content %}
 <h1>{{ title }}</h1>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Graph
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <canvas id="myChart" width="300" height="100%"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
 <table class="table">
   <tr>
     <th class="col-md-2">day</th>
@@ -8,7 +57,7 @@
     <th class="col-md-2">average uploadspeed</th>
     <td class="col-md-6"></td>
   </tr>
-  {% for day in days %}
+  {% for day in days_rev %}
   <tr>
     <td class="col-md-2"><a href="{{ day.day }}.htm">{{ day.day }}</a></td>
     <td class="col-md-2">{{ day.download_speed | round(1) }}</td>
@@ -17,4 +66,24 @@
   </tr>
   {% endfor %}
 </table>
+
+<script>
+var ctx = document.getElementById("myChart").getContext("2d");
+var options = {
+  scales: {
+    yAxes: [{
+        display: true,
+        ticks: {
+            beginAtZero: true   // minimum value will be 0.
+        }
+    }]
+}};
+
+var MyNewChart = new Chart(ctx,{
+  type:'line',
+  data:data,
+  options:options
+});
+</script>
+
 {% endblock %}
